@@ -10,9 +10,9 @@ export interface IRequestWithSession<T> extends Request {
 	session: ISession<T>;
 }
 
-export type Authenticator<T> = (session: ISession<T>) => boolean;
+export type SessionAuthenticator<T> = (session: ISession<T>) => boolean;
 
-export function authMiddleware<T>(authenticator: Authenticator<T>): RequestHandler {
+export function authMiddleware<T>(authenticator: SessionAuthenticator<T>): RequestHandler {
 	return (req, res, next) => {
 		const { ['x-session-id']: id, ['x-session-token']: token } = req.headers;
 
