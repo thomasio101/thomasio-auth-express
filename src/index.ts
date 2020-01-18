@@ -10,16 +10,16 @@ export interface IRequestWithSession<T> extends Request {
 	session: ISession<T>;
 }
 
-export type SessionAuthenticator<T> = (session: ISession<T>) => boolean;
+export type SessionAuthenticator<T> = (session: ISession<T>) => Promise<boolean>;
 
 export function authMiddleware<T>(authenticator: SessionAuthenticator<T>): RequestHandler {
-	return (req, res, next) => {
+	return async (req, res, next) => {
 		const { ['x-session-id']: id, ['x-session-token']: token } = req.headers;
 
 		if (typeof id === 'string' && typeof token === 'string') {
 			const session: ISession<T> = { id, token, identity: null };
 
-			if (authenticator(session)) {
+			if (await authenticator(session)) {
 				(req as IRequestWithSession<T>).session = session;
 				next();
 			} else {
