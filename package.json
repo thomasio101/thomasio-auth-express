@@ -16,9 +16,9 @@
     "type": "git",
     "url": "git+https://github.com/thomasio101/thomasio-auth-express.git"
   },
-  "author": "",
   "license": "ISC",
   "keywords": ["express", "authentication", "thomasio-auth"],
+  "author": "Thomas Egbert Duursma",
   "bugs": {
     "url": "https://github.com/thomasio101/thomasio-auth-express/issues"
   },
