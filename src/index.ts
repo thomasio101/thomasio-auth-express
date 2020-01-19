@@ -32,7 +32,10 @@ export function authMiddleware<T>(authenticator: SessionAuthenticator<T>): Reque
 	};
 }
 
-export type UserAuthenticator<T> = (username: string, password: string) => { valid: false; } | { valid: true; session: ISession<T> };
+export type UserAuthenticator<T> = (
+	username: string,
+	password: string,
+) => { valid: false } | { valid: true; session: ISession<T> };
 
 export function loginHandler<T>(authenticator: UserAuthenticator<T>): RequestHandler {
 	return async (req, res) => {
