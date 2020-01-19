@@ -31,3 +31,18 @@ export function authMiddleware<T>(authenticator: SessionAuthenticator<T>): Reque
 		}
 	};
 }
+
+export type UserAuthenticator<T> = (username: string, password: string) => { valid: boolean; session: ISession<T> };
+
+export function loginHandler<T>(authenticator: UserAuthenticator<T>): RequestHandler {
+	return async (req, res) => {
+		const { username, password }: { username: any; password: any } = req.body;
+
+		if (typeof username === 'string' && typeof password === 'string') {
+			// TODO: Add post processing for sessions to, for example, remove internal data from the session's identity.
+			res.json(await authenticator(username, password));
+		} else {
+			res.status(400).send('Error from thomasio-auth-express.\nInvalid body.');
+		}
+	};
+}
