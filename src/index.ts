@@ -1,16 +1,9 @@
 import { Request, RequestHandler } from 'express';
-
-export interface ISession<T> {
-	readonly id: string;
-	readonly token: string;
-	identity: T | null;
-}
+import { ISession, SessionAuthenticator, UserAuthenticator } from 'thomasio-auth-js-common/lib/server';
 
 export interface IRequestWithSession<T> extends Request {
 	session: ISession<T>;
 }
-
-export type SessionAuthenticator<T> = (session: ISession<T>) => Promise<boolean>;
 
 export function authMiddleware<T>(authenticator: SessionAuthenticator<T>): RequestHandler {
 	return async (req, res, next) => {
@@ -31,11 +24,6 @@ export function authMiddleware<T>(authenticator: SessionAuthenticator<T>): Reque
 		}
 	};
 }
-
-export type UserAuthenticator<T> = (
-	username: string,
-	password: string,
-) => { valid: false } | { valid: true; session: ISession<T> };
 
 export function loginHandler<T>(authenticator: UserAuthenticator<T>): RequestHandler {
 	return async (req, res) => {
