@@ -41,6 +41,6 @@
   "dependencies": {
     "@types/express": "^4.17.2",
     "express": "^4.17.1",
-    "thomasio-auth-js-common": "^1.6.0"
+    "thomasio-auth-js-common": "^1.7.0"
   }
 }
