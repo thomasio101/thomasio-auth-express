@@ -62,3 +62,32 @@ export function registrationHandler<E, I, U>(
 		}
 	};
 }
+
+export class ExpressAuthProvider<E, I, U> {
+	public static fromDatabaseInterface<E, I, U>(
+		databaseInterface: IDatabaseInterface<E, I, U>,
+		userDataValidator: UserDataValidator<U>,
+	): ExpressAuthProvider<E, I, U> {
+		return new this(
+			databaseInterface.sessionAuthenticator,
+			databaseInterface.userAuthenticator,
+			databaseInterface.userCreator,
+			userDataValidator,
+		);
+	}
+
+	public readonly authMiddleware: RequestHandler;
+	public readonly loginHandler: RequestHandler;
+	public readonly registrationHandler: RequestHandler;
+
+	private constructor(
+		sessionAuthenticator: SessionAuthenticator<I>,
+		userAuthenticator: UserAuthenticator<I>,
+		userCreator: UserCreator<E, I, U>,
+		userDataValidator: UserDataValidator<U>,
+	) {
+		this.authMiddleware = authMiddleware(sessionAuthenticator);
+		this.loginHandler = loginHandler(userAuthenticator);
+		this.registrationHandler = registrationHandler(userCreator, userDataValidator);
+	}
+}
