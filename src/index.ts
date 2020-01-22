@@ -44,7 +44,7 @@ export function loginHandler<T>(authenticator: UserAuthenticator<T>): RequestHan
 	};
 }
 
-export type UserDataValidator<U> = (userData: U) => Promise<boolean>;
+export type UserDataValidator = (userData: unknown) => Promise<boolean>;
 
 export function registrationHandler<E, I, U>(
 	userCreator: UserCreator<E, I, U>,
@@ -66,7 +66,7 @@ export function registrationHandler<E, I, U>(
 export class ExpressAuthProvider<E, I, U> {
 	public static fromDatabaseInterface<E, I, U>(
 		databaseInterface: IDatabaseInterface<E, I, U>,
-		userDataValidator: UserDataValidator<U>,
+		userDataValidator: UserDataValidator,
 	): ExpressAuthProvider<E, I, U> {
 		return new this(
 			databaseInterface.sessionAuthenticator,
@@ -84,7 +84,7 @@ export class ExpressAuthProvider<E, I, U> {
 		sessionAuthenticator: SessionAuthenticator<I>,
 		userAuthenticator: UserAuthenticator<I>,
 		userCreator: UserCreator<E, I, U>,
-		userDataValidator: UserDataValidator<U>,
+		userDataValidator: UserDataValidator,
 	) {
 		this.authMiddleware = authMiddleware(sessionAuthenticator);
 		this.loginHandler = loginHandler(userAuthenticator);
