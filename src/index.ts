@@ -44,11 +44,11 @@ export function loginHandler<T>(authenticator: UserAuthenticator<T>): RequestHan
 	};
 }
 
-export type UserDataValidator = (userData: unknown) => Promise<boolean>;
+export type UserDataValidator<U> = (userData: unknown) => userData is U;
 
 export function registrationHandler<E, I, U>(
 	userCreator: UserCreator<E, I, U>,
-	userDataValidator: UserDataValidator,
+	userDataValidator: UserDataValidator<U>,
 ): RequestHandler {
 	return async (req, res) => {
 		const { username, password, userData }: { username: any; password: any; userData: any } = req.body;
