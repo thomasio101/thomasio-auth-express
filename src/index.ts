@@ -66,7 +66,7 @@ export function registrationHandler<E, I, U>(
 export class ExpressAuthProvider<E, I, U> {
 	public static fromDatabaseInterface<E, I, U>(
 		databaseInterface: IDatabaseInterface<E, I, U>,
-		userDataValidator: UserDataValidator,
+		userDataValidator: UserDataValidator<U>,
 	): ExpressAuthProvider<E, I, U> {
 		return new this(
 			session => databaseInterface.sessionAuthenticator(session),
