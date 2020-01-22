@@ -84,7 +84,7 @@ export class ExpressAuthProvider<E, I, U> {
 		sessionAuthenticator: SessionAuthenticator<I>,
 		userAuthenticator: UserAuthenticator<I>,
 		userCreator: UserCreator<E, I, U>,
-		userDataValidator: UserDataValidator,
+		userDataValidator: UserDataValidator<U>,
 	) {
 		this.authMiddleware = authMiddleware(sessionAuthenticator);
 		this.loginHandler = loginHandler(userAuthenticator);
