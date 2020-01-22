@@ -48,7 +48,7 @@ export type UserDataValidator = (userData: unknown) => Promise<boolean>;
 
 export function registrationHandler<E, I, U>(
 	userCreator: UserCreator<E, I, U>,
-	userDataValidator: UserDataValidator<U>,
+	userDataValidator: UserDataValidator,
 ): RequestHandler {
 	return async (req, res) => {
 		const { username, password, userData }: { username: any; password: any; userData: any } = req.body;
