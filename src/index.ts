@@ -69,7 +69,7 @@ export class ExpressAuthProvider<E, I, U> {
 		userDataValidator: UserDataValidator,
 	): ExpressAuthProvider<E, I, U> {
 		return new this(
-			(session) => databaseInterface.sessionAuthenticator(session),
+			session => databaseInterface.sessionAuthenticator(session),
 			(username, password) => databaseInterface.userAuthenticator(username, password),
 			(username, password, userData) => databaseInterface.userCreator(username, password, userData),
 			userDataValidator,
